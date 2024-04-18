@@ -21,5 +21,6 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    toc: true
     toc-title: On this page 
     css: styles.css  # Add a custom CSS file (optional)
