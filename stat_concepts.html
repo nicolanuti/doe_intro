@@ -134,7 +134,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -178,7 +178,21 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#review-of-statistical-concepts" id="toc-review-of-statistical-concepts" class="nav-link active" data-scroll-target="#review-of-statistical-concepts">Review of statistical concepts</a>
+  <ul class="collapse">
+  <li><a href="#probability" id="toc-probability" class="nav-link" data-scroll-target="#probability">Probability</a>
+  <ul class="collapse">
+  <li><a href="#random-variables-and-distributions" id="toc-random-variables-and-distributions" class="nav-link" data-scroll-target="#random-variables-and-distributions">Random variables and distributions</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -208,16 +222,16 @@ We formally describe the observation for the <span class="math inline">\(i\)</sp
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Yield
-1  27.21
-2  29.89
-3  30.78
-4  33.55
-5  26.09
-6  30.75
-7  30.28
-8  28.33
-9  29.14
-10 34.30</code></pre>
+1  33.73
+2  30.35
+3  36.06
+4  31.22
+5  31.83
+6  30.38
+7  31.68
+8  33.91
+9  32.70
+10 34.40</code></pre>
 </div>
 </div>
 <p>It is often reasonable to assume that such a measurement is <strong>normally distributed</strong>, meaning that its underlying PDF is a <strong>normal (or Gaussian) curve</strong>. This distribution takes two parameters specific to the sample: the mean (<span class="math inline">\(\mu\)</span>), which is the distribution’s centre, and the Variance <span class="math inline">\(\sigma^2\)</span>, which represents how spread out the distribution is.</p>
