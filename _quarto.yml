@@ -1,0 +1,26 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Design of Experiments"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Statistical Concepts"
+        href: stat_concepts.qmd
+      - text: "DOE" 
+        href: doe.qmd
+      - text: "Summary"
+        href: summary.qmd
+      - text: "References"
+        href: references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc-title: On this page 
+    css: styles.css  # Add a custom CSS file (optional)

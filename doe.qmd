@@ -1,0 +1,121 @@
+# Design of Experiments
+
+## Motivation
+
+The main motivation driving the need for DOE is to get the most out of the smallest number of experiments. Experiments are expensive, long, and prone to error. With DOE, we can understand and improve our process with much less work, thanks to some clever experimental planning. Our main goal is to:
+
+-   **Understanding Cause and Effect:** Intelligently changing factors (nutrient levels, pH, etc.) and observing the results reveals true cause-and-effect relationships, which is crucial for optimising your process.
+
+Imagine your goal is to maximise the yield of a desired product. You suspect factors like temperature, reaction time, and agitation speed might be important. Our overall methodology will look like this:
+
+1.  **Screening:** Structured initial experiments give you a starting point, showing which factors truly influence yield.
+
+2.  **Optimisation:** You adjust the important factors, saving resources by excluding less impactful ones (e.g., using no feed if the feed has proven ineffective).
+
+3.  **Improvement:** Iterative experiments can fine-tune the process, leading to the most profitable conditions.
+
+## Terminology
+
+Before we go on, it is necessary to agree on some definitions:
+
+-   **Outcome (or Response):** A measurable result from an experiment. Examples include antibody yield, cell density, or product purity.
+
+-   **Factors (or Variables):** Elements of the experiment that you intentionally change to influence the outcome. Examples include nutrient levels, temperature, pH, and agitation speed.
+
+**Types of Factors**
+
+-   **Continuous (or Quantitative) Factors:** Measured on a numerical scale with a meaningful order (e.g., temperature in degrees Celsius, agitation speed in RPM). Sometimes called *numeric*.
+
+-   **Categorical (or Qualitative) Factors:** Represent distinct categories without inherent order (e.g., different media types, different impellers).
+
+**Experimental units**
+
+Each individual experimental setup with a specific combination of factors is called a **run** or **treatment**. A **treatment set** will involve multiple runs to explore the effects of different factors on the outcome.
+
+## How not to do it
+
+Maybe you are used to changing one variable (temperature, nutrient level, etc.) at a time, holding others constant, and then picking the best result before moving to the next factor. This is called the One Factor At a Time approach (or OFAT). While intuitive, this method has significant drawbacks that have been understood since at least the early 1930s, thanks to the work of R. A. Fisher [-@https://doi.org/10.23637/rothamsted.8v61q].
+
+I think this is best illustrated with an example.
+
+**Example: Optimizing Enzyme Yield**
+
+Consider a bioreactor where we produce a particular enzyme, with yield affected by factors like temperature and feed substrate concentration.
+
+1.  **Starting Point:** We begin our experiment at a temperature of 346 K (Base case) and a substrate concentration of 1.5 g/L, obtaining a yield of 63%.
+
+2.  **Changing Temperature:** We increase the temperature and see a decrease in yield, so we go the other way and lower the temperature. This increases the yield until it plateaus. We've improved the yield to 67%.
+
+3.  **Changing Substrate Concentration:** We then adjust the substrate concentration, first up and then down, until we find another plateau. We end up at 330 K and 0.75 g/L, improving the yield to 69.5% (Final).![OFAT experiment with 8 treatment](https://learnche.org/pid/_images/COST-contours.png)
+
+**Limitations:**
+
+-   We have missed the true optimum. The combination that gives the highest yield was never tested.
+
+-   We might have arrived at a completely different result had we changed the substrate concentration first. Our system gives different results according to the order of experiments, which is not good.
+
+-   We do not know how other factors (DO level, agitation rate, substrate type) influence our process.
+
+## Factorial Designs
+
+Let's consider an alternative approach to such a two-dimensional problem (two dimensions meaning that the parameter space can be shown with a 2D graph, as seen above). Let me introduce **factorial designs.** Unlike the (OFAT) approach, factorial designs enable us to investigate how multiple factors interact, which is crucial for process optimisation.
+
+**Example: Optimizing a Bioreactor**
+
+Consider a bioreactor where we want to maximise a reaction's conversion. Let's examine how temperature (°K) and substrate concentration (g/L) affect this conversion. In this example, we will start with a $2^2$-factorial design (factorial designs are indicated with $n^k$, where $k$ is the number of variables in the design and $n$ the number of levels for each factor).
+
+We will choose intentionally low (-) and high (+) levels of each factor, and produce the experimental design indicated below. After running the 4 experiments, we will note down the conversion rates in the appropriate column. We will [always run the experiment in random order]{.underline}, but for the sake of clarity, we show them here in standard order.
+
+| **Experiment** | **Temperature \[K\]** | **Substrate \[g/L\]** | **Conversion (%)** |
+|:---------------|:----------------------|:----------------------|:-------------------|
+| 1              | \-                    | \-                    | 69                 |
+| 2              | \+                    | \-                    | 60                 |
+| 3              | \-                    | \+                    | 64                 |
+| 4              | \+                    | \+                    | 53                 |
+
+**Main Effects: How Factors Influence the Outcome**
+
+How much change do we observe for each factor when that factor is changed from its low (-) to high (+) level? Here's how we would intuitively calculate it:
+
+1.  Find pairs of experiments in which only the factor of interest changes. For example, to calculate the effect of temperature, we compare experiments 1 and 2 (where temperature changes, but substrate remains constant) and experiments 3 and 4 (same change).
+
+2.  For each pair, subtract the outcome at the low level from the outcome at the high level. This gives the change caused by the factor. Since we have two pairs (1 and 2, 3 and 4), we average the differences, which gives the overall main effect of that factor.
+
+If we do this calculation, we see the following result:
+
+-   **Temperature Effect:** (experiments 1 & 2 and experiments 3 & 4) We can see that, on average, we have a -10% conversion decrease for a +16 K temperature change.
+
+-   **Substrate Effect:** (experiments 1 & 3 and experiments 2 & 4) yield an average effect of -6% conversion change per 0.5 g/L substrate change.
+
+In this specific case, the differences were quite similar to each other within the pair, and averaging them did not make a big difference:
+
+-   $\Delta T_{S(-)}= 60 - 69 = -9\%$, and $\Delta T_{S(+)}= 53 - 64 = -11\%$ average to a $-10\%$ change from low to high temperature.
+
+-   $\Delta S_{T(-)}= 53 - 60 = -7\%$, and $\Delta S_{T(-)}= 64- 69 = -5\%$ average to a $-9\%$ change from low to high substrate concentration.
+
+If we visualise them on a 3D plot, we notice how the surface more or less resembles a plane (slightly warped because of the small differences within each pair), where each factor contributes more or less the same amount regardless of what happens with the other factor. But what if this was not the case?
+
+![](/images/22noint.png)
+
+**Interactions: When Factors Work Together (or Against Each Other)**
+
+In many real-world systems, the effect of one factor depends on the level of another. This is called an **interaction**. For our bioreactor example, the temperature effect on conversion might be much greater at high substrate concentrations. Let's consider the example in which we would have gotten the following result instead:
+
+| **Experiment** | **Temperature \[K\]** | **Substrate \[g/L\]** | **Conversion (%)** |
+|:---------------|:----------------------|:----------------------|:-------------------|
+| 1              | \-                    | \-                    | 77                 |
+| 2              | \+                    | \-                    | 79                 |
+| 3              | \-                    | \+                    | 81                 |
+| 4              | \+                    | \+                    | 89                 |
+
+: In this case, the differences are very different within the pair:
+
+-   $\Delta T_{S(-)}= 79 - 77 = 2\%$, and $\Delta T_{S(+)}= 89 - 81 = 8\%$ average to a $5\%$ change from low to high temperature.
+
+-   $\Delta S_{T(-)}= 81 - 77 = 4\%$, and $\Delta S_{T(-)}= 89 - 79 = 10\%$ average to a $7\%$ change from low to high substrate concentration.
+
+The temperature effect is much stronger at high substrate concentrations than at the low level ($8\%$ vs. $2\%$). Calculating the main effects alone hides this interaction. A contour plot shows that a plane can no longer approximate the surface, and it looks much more warped and irregular.
+
+![](/images/22int.png)
+
+How can we record and express what we have seen so far? In the next section, we will introduce a way to mathematically interpret main effects and interactions using a simple linear least squares model.

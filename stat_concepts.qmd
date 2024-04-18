@@ -1,0 +1,40 @@
+# Review of statistical concepts
+
+Before we start, we must briefly review basic statistical inference concepts such as variation, parameter estimation, and hypotheses testing. To avoid overly complex math, we will assume that our data is normally distributed (more on that later).
+
+## Probability
+
+### Random variables and distributions
+
+Even in a bioreactor's highly controlled environment, natural fluctuations between batches will occur. Sources of this variation include inherent differences within biological systems and subtle inconsistencies during measurement.
+
+A **Random Variable** is a mathematical object representing the possible outcomes of a process that has some degree of inherent randomness---for example, the possible outputs of an antibody yield measurement for different batches.\
+We formally describe the observation for the $i$th batch measurement by the outcome $y_i$ of its associated random variable $Y_i$ (representing all possible yield batch measurements within a given production process).
+
+**Probability distributions** are useful functions that map random variables to the probability of certain outcomes.
+
+-   The **Probability Density Function (PDF)**, $f_Y(y)$, is a useful tool to find the probability of a certain outcome (e.g. yield) falling within a range. The area under the PDF between the values $a$ and $b$ gives the probability that a realization of $Y$ falls into the interval $[a,b]$ and is formalized as$$\mathbb{P}(Y\in [a,b]) = \mathbb{P}(a\leq Y\leq b) = \int_a^b f_Y(y) dy = F_Y(b)-F_Y(a)$$
+
+-   The **Cumulative Distribution Functions (CDF)**, $F_Y(y)$ is a related function (actually the integral of the PDF) where the output represents the probability that a yield will be less than or equal to a specific value $y$: $$F_Y(y) = \mathbb{P}(Y\leq y) = \int_{-\infty}^y f_Y(y) dy$$
+
+**Example: Exploring Antibody Yield Data**
+
+Suppose we collect antibody yield data from 10 bioreactor runs. Each run's yield is represented by the outcome $y_i$ of its associated random variable $Y_i$.
+
+```{r}
+# Generate sample bioreactor yield data
+df <- data.frame(Yield = round(rnorm(10, mean = 30, sd = 3), digits = 2))
+df
+```
+
+It is often reasonable to assume that such a measurement is **normally distributed**, meaning that its underlying PDF is a **normal (or Gaussian) curve**. This distribution takes two parameters specific to the sample: the mean ($\mu$), which is the distribution's centre, and the Variance $\sigma^2$, which represents how spread out the distribution is.
+
+$$ f_Y(y;\mu,\sigma^2) = \frac{1}{\sqrt{2\pi}\sigma}\cdot\exp\left(-\frac{1}{2}\cdot\left(\frac{y-\mu}{\sigma}\right)^2\right)$$
+
+By plugging in the specific mean and standard deviation for our sample ($\mu = 30$, $\sigma^2 = 3$) the function creates a bell-shaped curve that we can use to calculate probabilities of specific yield outcomes.
+
+**Key Takeaways**
+
+-   Variability in bioreactor yields is natural and expected.
+-   Random variables and probability distributions help us model and quantify this variation.
+-   The normal distribution is a common and useful assumption for this type of data.

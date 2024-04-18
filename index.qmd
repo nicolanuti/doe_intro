@@ -1,0 +1,3 @@
+# Index
+
+This book is intended as a theory refresh for people looking into the design of experiments
