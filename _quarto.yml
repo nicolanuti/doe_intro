@@ -8,14 +8,13 @@ website:
     left:
       - text: "Home"
         href: index.qmd
-      - text: "Statistical Concepts"
+      - text: "Prerequisites"
         href: stat_concepts.qmd
-      - text: "DOE" 
+      - text: "Introduction to DOE" 
         href: doe.qmd
-      - text: "Summary"
+      - text: "External links"
         href: summary.qmd
-      - text: "References"
-        href: references.qmd
+
 
 bibliography: references.bib
 
